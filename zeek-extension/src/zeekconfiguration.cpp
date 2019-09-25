@@ -9,8 +9,11 @@
  */
 
 #include <osquery/logger.h>
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/flags.h>
+#else
 #include <osquery/status.h>
-
+#endif
 #include "configurationchecker.h"
 #include "zeekconfiguration.h"
 

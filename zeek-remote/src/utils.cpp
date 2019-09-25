@@ -15,13 +15,18 @@
 #include <broker/broker.hh>
 #include <broker/endpoint.hh>
 
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/config/config.h>
+#include <osquery/sdk/sdk.h>
+#include <osquery/utils/json/json.h>
+#else
 #include <osquery/config.h>
+#include <osquery/sdk.h>
+#include "osquery/core/json.h"
+#endif
 #include <osquery/logger.h>
 #include <osquery/query.h>
-#include <osquery/sdk.h>
 #include <osquery/sql.h>
-
-#include "osquery/core/json.h"
 
 #include <zeek-remote/utils.h>
 

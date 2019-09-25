@@ -15,7 +15,11 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
 
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/sdk/sdk.h>
+#else
 #include <osquery/sdk.h>
+#endif
 
 namespace osquery {
 using ZeekLoggerPlugin = zeek::ZeekLoggerPlugin;

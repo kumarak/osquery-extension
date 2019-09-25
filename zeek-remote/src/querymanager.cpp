@@ -14,7 +14,11 @@
 #include <list>
 #include <sstream>
 
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/config/config.h>
+#else
 #include <osquery/config.h>
+#endif
 #include <osquery/database.h>
 #include <osquery/flags.h>
 #include <osquery/logger.h>

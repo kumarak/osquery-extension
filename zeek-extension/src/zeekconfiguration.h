@@ -14,7 +14,11 @@
 #include <string>
 #include <unordered_map>
 
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/flags.h>
+#else
 #include <osquery/status.h>
+#endif
 
 namespace zeek {
 class ZeekConfiguration final {

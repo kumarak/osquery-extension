@@ -19,10 +19,10 @@ function(zeekLibrariesMain)
   set(library_list
     # todo(alessandro): Remove these once the extension is migrated to the
     # osquery 4.x SDK
-    openssl
-    sqlite
-    rocksdb
-    googletest
+    # openssl
+    # sqlite
+    # rocksdb
+    # googletest
 
     # todo(alessandro): Uncomment these once the extension is migrated to the
     # osquery 4.x SDK

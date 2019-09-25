@@ -19,7 +19,11 @@
 #include <broker/endpoint.hh>
 
 #include <osquery/query.h>
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/flags.h>
+#else
 #include <osquery/status.h>
+#endif
 
 #include <zeek-remote/iquerymanager.h>
 #include <zeek-remote/types.h>

@@ -15,8 +15,13 @@
 #include <vector>
 
 // todo: replace this with <rapidjson/document.h> when moving to osquery 4.x
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/utils/json/json.h>
+#include <osquery/flags.h>
+#else
 #include <osquery/core/json.h>
 #include <osquery/status.h>
+#endif
 
 namespace zeek {
 class ConfigurationChecker final {

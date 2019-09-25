@@ -21,7 +21,15 @@
 #include <broker/status.hh>
 #include <broker/status_subscriber.hh>
 
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/config/config.h>
+#include <osquery/filesystem/linux/proc.h>
+#include <osquery/process/process.h>
+#else
 #include <osquery/config.h>
+#include "osquery/core/conversions.h"
+#include "osquery/core/process.h"
+#endif
 #include <osquery/flags.h>
 #include <osquery/logger.h>
 #include <osquery/sql.h>
@@ -29,8 +37,6 @@
 #include <zeek-remote/utils.h>
 
 #include "brokermanager.h"
-#include "osquery/core/conversions.h"
-#include "osquery/core/process.h"
 
 namespace zeek {
 struct BrokerManager::PrivateData final {
@@ -389,7 +395,12 @@ osquery::Status BrokerManager::logQueryLogItemToZeek(
   }
 
   // Rows to be reported
+#if OSQUERY_VERSION_NUMBER > 400
+  std::vector<std::tuple<osquery::RowTyped, std::string>> rows;
+#else
   std::vector<std::tuple<osquery::Row, std::string>> rows;
+#endif
+
   for (const auto& row : qli.results.added) {
     rows.emplace_back(row, "ADD");
   }
@@ -462,8 +473,11 @@ osquery::Status BrokerManager::logQueryLogItemToZeek(
         LOG(ERROR) << "Available column names: " << av_names;
         break;
       }
+#if OSQUERY_VERSION_NUMBER > 400
+      const auto& value = boost::get<std::string>(row.at(colName));
+#else
       const auto& value = row.at(colName);
-
+#endif
       try {
         switch (columnTypes.at(colName)) {
         case osquery::ColumnType::UNKNOWN_TYPE: {

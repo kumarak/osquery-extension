@@ -41,6 +41,9 @@ function(generateZeekRemote)
     thirdparty_broker
     thirdparty_caf
     zeek_cxx_settings
+    thirdparty_boost
+    osquery_headers
+    osquery_sdk_pluginsdk
   )
 endfunction()
 

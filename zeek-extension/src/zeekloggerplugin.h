@@ -8,7 +8,12 @@
  *  You may select, at your option, one of the above-listed licenses.
  */
 
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/sdk/sdk.h>
+#include <osquery/plugins/logger.h>
+#else
 #include <osquery/sdk.h>
+#endif
 
 #include <zeek-remote/utils.h>
 

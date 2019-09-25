@@ -30,6 +30,11 @@ function(zeekExtensionMain)
 
   target_link_libraries("${PROJECT_NAME}"
     zeek-remote
+    osquery_cxx_settings
+    osquery_sdk_pluginsdk
+    osquery_extensions_implthrift
+    zeek-remote
+    thirdparty_broker
 
     # Uncomment this when moving to osquery 4.x
     # thirdparty_rapidjson
