@@ -18,7 +18,14 @@
 
 #include <boost/property_tree/ptree.hpp>
 
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/config/config.h>
+#include <osquery/utils/json/json.h>
+#include <osquery/utils/system/time.h>
+#else
 #include <osquery/config.h>
+#include "osquery/core/json.h"
+#endif
 #include <osquery/database.h>
 #include <osquery/distributed.h>
 #include <osquery/enroll.h>
@@ -29,7 +36,6 @@
 
 #include <zeek-remote/utils.h>
 
-#include "osquery/core/json.h"
 #include "osquery/remote/serializers/json.h"
 #include "osquery/remote/utility.h"
 
@@ -258,10 +264,14 @@ osquery::Status ZeekDistributedPlugin::getQueries(std::string& json) {
 osquery::Status ZeekDistributedPlugin::writeResults(const std::string& json) {
   // Parse json
   // VLOG(1) << "Serialized execution query results: " << json;
+#if OSQUERY_VERSION_NUMBER > 400
+  std::vector<std::pair<std::string, std::pair<osquery::QueryDataTyped, int>>>
+      query_results;
+#else
   std::vector<std::pair<std::string, std::pair<osquery::QueryData, int>>>
       query_results;
+#endif
   parseDistributedQueryResultsJSON(json, query_results);
-
   // For each query
   for (const auto& query_result : query_results) {
     // Get the query ID

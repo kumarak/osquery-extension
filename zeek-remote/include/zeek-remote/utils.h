@@ -69,8 +69,15 @@ osquery::Status serializeDistributedQueryRequestsJSON(
  * requestID
  * @return osquery::Status indicating the success or failure of the operation
  */
+#if OSQUERY_VERSION_NUMBER > 400
+osquery::Status parseDistributedQueryResultsJSON(
+    const std::string& json,
+    std::vector<std::pair<std::string, std::pair<osquery::QueryDataTyped, int>>>&
+        rs);
+#else
 osquery::Status parseDistributedQueryResultsJSON(
     const std::string& json,
     std::vector<std::pair<std::string, std::pair<osquery::QueryData, int>>>&
         rs);
+#endif
 } // namespace zeek

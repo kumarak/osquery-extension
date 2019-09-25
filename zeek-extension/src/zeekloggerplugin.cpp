@@ -13,7 +13,11 @@
 #include "globals.h"
 
 // todo: replace this with <rapidjson/document.h> when moving to osquery 4.x
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/utils/json/json.h>
+#else
 #include <osquery/core/json.h>
+#endif
 
 namespace zeek {
 osquery::Status ZeekLoggerPlugin::setUp() {
@@ -28,11 +32,13 @@ osquery::Status ZeekLoggerPlugin::setUp() {
 osquery::Status ZeekLoggerPlugin::logString(const std::string& s) {
   osquery::QueryLogItem item;
 
+#if OSQUERY_VERSION_NUMBER <= 400
+  // TODO(akshayk) deserialization support is not available with 4.x
   auto status = deserializeQueryLogItemJSON(s, item);
   if (!status) {
     return osquery::Status::failure("Failed to deserialize");
   }
-
+#endif
   return broker_manager->logQueryLogItemToZeek(item);
 }
 

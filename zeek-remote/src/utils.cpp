@@ -169,10 +169,17 @@ osquery::Status serializeDistributedQueryRequestsJSON(
   return doc.toString(json);
 }
 
+#if OSQUERY_VERSION_NUMBER > 400
+osquery::Status parseDistributedQueryResultsJSON(
+    const std::string& json,
+    std::vector<std::pair<std::string, std::pair<osquery::QueryDataTyped, int>>>&
+        rs) {
+#else
 osquery::Status parseDistributedQueryResultsJSON(
     const std::string& json,
     std::vector<std::pair<std::string, std::pair<osquery::QueryData, int>>>&
         rs) {
+#endif
   auto doc = osquery::JSON::newObject();
   auto s = doc.fromString(json);
   if (!s.ok()) {
@@ -181,7 +188,11 @@ osquery::Status parseDistributedQueryResultsJSON(
 
   // Browse query results
   std::vector<std::string> qd_ids;
+#if OSQUERY_VERSION_NUMBER > 400
+  std::vector<osquery::QueryDataTyped> qds;
+#else
   std::vector<osquery::QueryData> qds;
+#endif
   if (doc.doc().HasMember("queries")) {
     const auto& queries = doc.doc()["queries"];
     assert(queries.IsObject());
@@ -205,7 +216,11 @@ osquery::Status parseDistributedQueryResultsJSON(
           return osquery::Status::failure(
               "Distributed query result is not an array");
         }
+#if OSQUERY_VERSION_NUMBER > 400
+        osquery::QueryDataTyped qd;
+#else
         osquery::QueryData qd;
+#endif
         osquery::deserializeQueryData(query_entry.value, qd);
         if (!s.ok()) {
           return s;
