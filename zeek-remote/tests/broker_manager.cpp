@@ -13,6 +13,9 @@
 #include <gtest/gtest.h>
 
 #include <osquery/logger.h>
+#if OSQUERY_VERSION_NUMBER > 400
+#include <osquery/flags.h>
+#else
 #include <osquery/status.h>
-
+#endif
 namespace zeek {} // namespace zeek
